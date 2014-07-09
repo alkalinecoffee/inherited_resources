@@ -48,6 +48,10 @@ module InheritedResources
       # probably render a 500 error message.
       #
       def resource
+        puts "end_of_association_chain: #{end_of_association_chain}"
+        puts "params: #{params}"
+        puts "method_for_find: #{method_for_find}"
+
         get_resource_ivar || set_resource_ivar(end_of_association_chain.send(method_for_find, params[:id]))
       end
 
@@ -223,12 +227,16 @@ module InheritedResources
       # Get resource ivar based on the current resource controller.
       #
       def get_resource_ivar #:nodoc:
+        puts "actual variable value: #{instance_variable_get("@#{resource_instance_name}")}"
         instance_variable_get("@#{resource_instance_name}")
       end
 
       # Set resource ivar based on the current resource controller.
       #
       def set_resource_ivar(resource) #:nodoc:
+        puts "resource_instance_name: #{resource_instance_name}"
+        puts "setting resource variable for resource: #{resource.inspect}"
+
         instance_variable_set("@#{resource_instance_name}", resource)
       end
 
